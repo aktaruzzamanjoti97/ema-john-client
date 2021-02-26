@@ -1,0 +1,22 @@
+.shop-container{
+    display: flex;
+}
+.product-container{
+    width: 75%;
+    margin-left: 20px;
+    margin-right: 8px;
+    border-right: 1px solid lightgray;
+    /* padding-left: 20px; */
+}
+.cart-container{
+    margin-left: 5rem;
+}
+@media (max-width: 768px){
+    .shop-container{
+        display: grid;
+        grid-template-columns: (2, 1fr);
+    }
+    .product-container{
+        border-right: none;
+    }
+}

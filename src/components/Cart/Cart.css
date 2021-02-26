@@ -1,0 +1,14 @@
+/* .cart-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
+.order{
+    color: blue;
+}
+.last-span{
+    color: red;
+}
+.last-total{
+    color: green;
+}
