@@ -26,12 +26,14 @@ const Review = () => {
         //cart
         const savedCart = getDatabaseCart();
         const productKeys = Object.keys(savedCart);
-        const cartProduct = productKeys.map(key => {
-            const product = fakeData.find(pd => pd.key === key);
-            product.quantity = savedCart[key];
-            return product;
-        });
-        setCart(cartProduct);
+
+        fetch('https://blooming-stream-08071.herokuapp.com/productByKeys', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body : JSON.stringify(productKeys)
+        })
+        .then(res => res.json())
+        .then(data => setCart(data)) 
     }, []);
 
     const thankyou = <img src={happyImage} alt=""/>

@@ -1,12 +1,29 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../../App';
+import { getDatabaseCart, processOrder } from '../../utilities/databaseManager';
 import './Shipment.css'
 
 const Shipment = () => {
     const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = data => {
-      console.log('form submit', data)
+      const savedCart = getDatabaseCart();
+      const orderDetails = {...loggedInUser, products: savedCart, shipment: data, orderTime: new Date()};
+
+      fetch('https://blooming-stream-08071.herokuapp.com/addOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderDetails)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data){
+          processOrder();
+          alert('Your order placed successfully');
+        }
+      })
     };
 
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -15,7 +32,7 @@ const Shipment = () => {
 
   return (
     <form className="ship-form" onSubmit={handleSubmit(onSubmit)}>
-    <input name="example" defaultValue="test" ref={register} />
+    
       
       <input name="name" defaultValue={loggedInUser.name} ref={register({ required: true })} placeholder="Enter Your Name"/>
       {errors.name && <span className="error">Name is required</span>}
